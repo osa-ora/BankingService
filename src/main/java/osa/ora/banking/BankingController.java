@@ -3,13 +3,16 @@ package osa.ora.banking;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
+import javax.jms.Queue;
+import javax.jms.QueueSender;
+import javax.jms.Session;
+import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.ActiveMQSession;
 import org.apache.camel.CamelContext;
-import org.apache.camel.ProducerTemplate;
-import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -108,7 +111,7 @@ public class BankingController {
             return "{\"result\":\""+message+"\"}";
         }        
     }
-    private boolean sendSwiftUsingCamel(final String message) {
+    private boolean sendSwiftUsingCamel(String message) {
         CamelContext ctx = new DefaultCamelContext();
         ctx.setTypeConverterStatisticsEnabled(true);
         //configure jms component        
@@ -122,22 +125,21 @@ public class BankingController {
         }
         try {
             ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://" + ip + ":" + port);
-            ctx.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
+            Connection connection = connectionFactory.createConnection();
+            ActiveMQSession session = (ActiveMQSession) connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            Queue destination = session.createQueue("swift");    
+            TextMessage textMessage = session.createTextMessage(message);
+            QueueSender publisher = session.createSender(destination);
             System.out.println("will send a message:" + message);
-            //ProducerTemplate template = ctx.createProducerTemplate();
-            //template.sendBody("activemq:queue:swift", message);
-            ctx.addRoutes(new RouteBuilder() {	
-				@Override
-				public void configure() throws Exception {
-                   from("timer:foo?period=1s").setBody(simple(message)).to(
-                            "jms:queue:activemq/queue/swift");
-				
-				}});        
+            publisher.send(textMessage);
+            session.close();
+            connection.close();
             System.out.println("Transfer Message sent");
             return true;
         } catch (Exception e) {
         	e.printStackTrace();
             System.out.println("ActiveMQ currently not available! "+e.getLocalizedMessage());
+            System.out.println("Reason = "+e.getCause().getLocalizedMessage());
             return false;
         }
     }
