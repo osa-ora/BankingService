@@ -21,7 +21,7 @@ public class TransactionsPersistence {
 	}
 
 	public boolean save(Transactions account) {
-		String insertTableSQL = "INSERT INTO TRANSACTIONS "
+		String insertTableSQL = "INSERT INTO transactions "
 				+ "(ACCOUNT_NO,TRANSACTION, DATE, TRANSACTION_DETAILS) "
 				+ "VALUES(?,?,?,?)";
 

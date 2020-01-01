@@ -45,7 +45,7 @@ public class BankAccountPersistence {
 	}
 
 	public boolean update(BankAccount account) {
-		String updateTableSQL = "UPDATE Accounts SET BALANCE=? WHERE ACCOUNT_NO=?";
+		String updateTableSQL = "UPDATE accounts SET BALANCE=? WHERE ACCOUNT_NO=?";
 		try (PreparedStatement preparedStatement = getConnection()
 				.prepareStatement(updateTableSQL);) {
 			preparedStatement.setDouble(1, account.getBalance());
@@ -61,7 +61,7 @@ public class BankAccountPersistence {
 	}
 
 	public JsonMessage delete(String id) {
-		String deleteRowSQL = "DELETE FROM Accounts WHERE ACCOUNT_NO='?'";
+		String deleteRowSQL = "DELETE FROM accounts WHERE ACCOUNT_NO='?'";
 		try (PreparedStatement preparedStatement = getConnection()
 				.prepareStatement(deleteRowSQL)) {
 			preparedStatement.setString(1, id);
@@ -78,12 +78,12 @@ public class BankAccountPersistence {
 	}
 
 	public BankAccount[] findAll() {
-		String queryStr = "SELECT * FROM Accounts";
+		String queryStr = "SELECT * FROM accounts";
 		return this.query(queryStr);
 	}
 
 	public BankAccount findbyId(String account_no) {
-		String queryStr = "SELECT * FROM Accounts WHERE account_no='" + account_no+"'";
+		String queryStr = "SELECT * FROM accounts WHERE account_no='" + account_no+"'";
 		BankAccount customer = null;
 		BankAccount customers[] = this.query(queryStr);
 		if (customers != null && customers.length > 0) {
