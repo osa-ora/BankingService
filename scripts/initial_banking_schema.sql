@@ -1,4 +1,4 @@
-CREATE SCHEMA `BankAccounts` ;
+CREATE SCHEMA `bankaccounts` ;
 
 CREATE TABLE `bankaccounts`.`accounts` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -27,4 +27,4 @@ INSERT INTO `bankaccounts`.`transactions` (`transaction_id`, `account_no`, `tran
 INSERT INTO `bankaccounts`.`transactions` (`transaction_id`, `account_no`, `transaction`, `date`, `transaction_details`) VALUES ('5', '2323445-1', '-200', '2019-12-19 22:55:02', 'Cash wihdraw');
 commit;
 
-GRANT ALL PRIVILEGES ON *.* TO 'BankAccounts'@'localhost' IDENTIFIED BY 'BankAccounts';
+GRANT ALL PRIVILEGES ON *.* TO 'bankaccounts'@'localhost' IDENTIFIED BY 'bankaccounts';
