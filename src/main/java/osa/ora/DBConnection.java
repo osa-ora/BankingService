@@ -22,7 +22,7 @@ public class DBConnection {
     private static final String URL = "jdbc:mysql://";
     //localhost:1521:XE
     //localhost:3306/UserDB
-    public static final String LOCAL_DEFAULT_CONNECT_DESCRIPTOR = "localhost:3306/BankAccounts";
+    public static final String LOCAL_DEFAULT_CONNECT_DESCRIPTOR = "localhost:3306/bankaccounts";
     //com.mysql.jdbc.Driver
     //oracle.jdbc.driver.OracleDriver
     private static final String DRIVER = "com.mysql.jdbc.Driver";
@@ -31,8 +31,8 @@ public class DBConnection {
     public static final Optional<String> DBAAS_PASSWORD = Optional.ofNullable(System.getenv("DBAAS_USER_PASSWORD"));
     public static final Optional<String> DBAAS_DEFAULT_CONNECT_DESCRIPTOR = Optional.ofNullable(System.getenv("DBAAS_DEFAULT_CONNECT_DESCRIPTOR"));
     //Local settings        
-    public static final String LOCAL_USERNAME = "BankAccounts";
-    public static final String LOCAL_PASSWORD = "BankAccounts";
+    public static final String LOCAL_USERNAME = "bankaccounts";
+    public static final String LOCAL_PASSWORD = "bankaccounts";
 
     private static Connection connection = null;
     private static DBConnection instance = null;
