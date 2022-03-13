@@ -13,7 +13,7 @@ spec:
         - image: image-registry.openshift-image-registry.svc:5000/dev/banking-service
           env:
             - name: DBAAS_DEFAULT_CONNECT_DESCRIPTOR
-              value: 'banking-db:3306/BankAccounts'
+              value: 'banking-db:3306/bankaccounts'
             - name: DBAAS_USER_NAME
               valueFrom:
                 secretKeyRef:
