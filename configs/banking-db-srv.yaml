@@ -1,0 +1,18 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: banking-db
+  namespace: dev
+spec:
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: mysql
+      protocol: TCP
+      port: 3306
+      targetPort: 3306
+  internalTrafficPolicy: Cluster
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  selector:
+    name: banking-db
