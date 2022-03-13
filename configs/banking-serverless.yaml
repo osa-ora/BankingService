@@ -1,0 +1,26 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: banking-service
+  namespace: dev
+  labels:
+    app.kubernetes.io/part-of: banking-service
+    application: banking-service
+spec:
+  template:
+    spec:
+      containers:
+        - image: image-registry.openshift-image-registry.svc:5000/dev/banking-service
+          env:
+            - name: DBAAS_DEFAULT_CONNECT_DESCRIPTOR
+              value: 'banking-db:3306/BankAccounts'
+            - name: DBAAS_USER_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: banking-db
+                  key: database-user
+            - name: DBAAS_USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: banking-db
+                  key: database-password
