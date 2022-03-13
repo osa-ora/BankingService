@@ -7,8 +7,8 @@ read
 
 oc new-project dev
 oc apply -f https://raw.githubusercontent.com/osa-ora/BankingService/master/configs/db-secret.yaml
-oc apply -f https://raw.githubusercontent.com/osa-ora/BankingService/master/configs/customer-db-deployment.yaml
-oc apply -f https://raw.githubusercontent.com/osa-ora/BankingService/master/configs/customer-db-service.yaml
+oc apply -f https://raw.githubusercontent.com/osa-ora/BankingService/master/configs/banking-db-deployment.yaml
+oc apply -f https://raw.githubusercontent.com/osa-ora/BankingService/master/configs/banking-db-srv.yaml
 echo "Service 'Banking-db' deployed successfully as ephemeral" 
 echo "Login to Banking-db mysql pod and install the schema using:"
 echo "mysql -u root"
