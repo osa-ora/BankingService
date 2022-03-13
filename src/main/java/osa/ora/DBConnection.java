@@ -5,12 +5,10 @@
  */
 package osa.ora;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Optional;
-
-//import oracle.jdbc.pool.OracleDataSource;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  *
@@ -38,11 +36,6 @@ public class DBConnection {
     private static DBConnection instance = null;
 
     private DBConnection() {
-        try {
-            Class.forName(DRIVER).newInstance();
-        } catch (Exception sqle) {
-            sqle.printStackTrace();
-        }
     }
 
     public static DBConnection getInstance() {
@@ -56,19 +49,16 @@ public class DBConnection {
     	try {
 	        if (connection == null || !connection.isValid(5)) {
 	            try {
-	                MysqlDataSource ods=new MysqlDataSource();
-	                //OracleDataSource ods = new OracleDataSource();
-	                ods.setURL(URL + DBAAS_DEFAULT_CONNECT_DESCRIPTOR.orElse(LOCAL_DEFAULT_CONNECT_DESCRIPTOR));
-	                ods.setUser(DBAAS_USERNAME.orElse(LOCAL_USERNAME));
-	                ods.setPassword(DBAAS_PASSWORD.orElse(LOCAL_PASSWORD));
-	                connection = ods.getConnection();
+	                connection =
+       				DriverManager.getConnection(URL + DBAAS_DEFAULT_CONNECT_DESCRIPTOR.orElse(LOCAL_DEFAULT_CONNECT_DESCRIPTOR) +
+                                   "?user="+DBAAS_USERNAME.orElse(LOCAL_USERNAME)+"&password="+DBAAS_PASSWORD.orElse(LOCAL_PASSWORD));
 	            } catch (SQLException e) {
 	                e.printStackTrace();
 	            }
 	        }
-	    	}catch(Exception e){
-	    		e.printStackTrace();
-	    	}
+	}catch(Exception e){
+		e.printStackTrace();
+	}
         return connection;
     }
 }
