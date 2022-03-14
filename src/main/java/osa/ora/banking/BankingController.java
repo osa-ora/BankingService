@@ -123,8 +123,16 @@ public class BankingController {
         if (port == null) {
             port = "61616";
         }
+	String user = System.getenv("ACTIVEMQ_USER");
+        if (user == null) {
+            user = "admin";
+        }
+	String pass = System.getenv("ACTIVEMQ_PASSWORD");
+        if (pass == null) {
+            pass = "admin";
+        }
         try {
-            ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://" + ip + ":" + port);
+            ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(user,pass,"tcp://" + ip + ":" + port);
             Connection connection = connectionFactory.createConnection();
             ActiveMQSession session = (ActiveMQSession) connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             Queue destination = session.createQueue("swift");    
