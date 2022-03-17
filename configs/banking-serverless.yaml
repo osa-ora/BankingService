@@ -6,6 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/part-of: banking-service
     application: banking-service
+    serving.knative.dev/visibility: cluster-local
 spec:
   template:
     spec:
